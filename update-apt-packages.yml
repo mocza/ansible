@@ -3,7 +3,15 @@
   become: yes
 
   tasks:
+   - name: full system upgrade
+     when: ansible_os_family == 'Archlinux'
+     become: true
+       community.general.pacman:
+       update_cache: true
+       upgrade: true
+
    - name: update apt packages
+     when: ansible_os_family == 'Debian'
      become: true
      apt:
        upgrade: yes
