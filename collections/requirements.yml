@@ -1,2 +1,4 @@
 ---
-- src: community.general.pacman
+collections:
+  - name: community.general
+    version: '4.4.0'  # Specify the version if needed; omit for the latest version
