@@ -5,6 +5,6 @@
   tasks:
    - name: full system upgrade
      become: true
-       community.general.pacman:
+     community.general.pacman:
        update_cache: true
        upgrade: true
