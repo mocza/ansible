@@ -1,0 +1,14 @@
+---
+- name: Backup proxmox config using SQLite 
+  hosts: all 
+  become: yes
+  tasks:
+    - name: Ensure backup directory exists
+      ansible.builtin.file:
+        path: /srv/dev-disk-by-uuid-11b85a57-881f-4f0e-928c-941552ffec6e/Library/backup/proxmox/prox
+        state: directory
+
+    - name: Backup SQLite database
+      ansible.builtin.command:
+        cmd: sqlite3 /var/lib/pve-cluster/config.db ".backup '/srv/dev-disk-by-uuid-11b85a57-881f-4f0e-928c-941552ffec6e/Library/backup/proxmox/prox/config.db.{{ ansible_date_time.date }}'"
+
