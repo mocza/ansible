@@ -1,6 +1,6 @@
 ---
 - name: Backup proxmox config using SQLite 
-  hosts: prox 
+  hosts: all 
   become: yes
   tasks:
     - name: Ensure backup directory exists
