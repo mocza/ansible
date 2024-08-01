@@ -15,4 +15,8 @@
     - name: Backup SQLite database
       ansible.builtin.command:
         cmd: sqlite3 /var/lib/pve-cluster/config.db ".backup '/mnt/Library/backup/proxmox/prox/config.db.{{ ansible_date_time.date }}'"
-
+    - name: Create a tarball of /etc directory
+      archive:
+        path: /etc
+        dest: /mnt/Library/backup/proxmox/prox/etc.tar.gz.{{ ansible_date_time.date }}
+        format: gz
