@@ -5,10 +5,18 @@
   tasks:
     - name: Ensure backup directory exists
       ansible.builtin.file:
-        path: /srv/dev-disk-by-uuid-11b85a57-881f-4f0e-928c-941552ffec6e/Library/backup/proxmox/prox
+        path: /mnt/Library/backup/proxmox/prox
         state: directory
-
+    - name: Mount NFS share
+      ansible.builtin.mount:
+        src: "{{ nfs_server }}:/export/Library"
+        path: /mnt/Library/backup/proxmox/prox
+        fstype: nfs
+        opts: rw,sync
+        state: mounted
+      vars:
+        nfs_server: "192.168.1.110"  
     - name: Backup SQLite database
       ansible.builtin.command:
-        cmd: sqlite3 /var/lib/pve-cluster/config.db ".backup '/srv/dev-disk-by-uuid-11b85a57-881f-4f0e-928c-941552ffec6e/Library/backup/proxmox/prox/config.db.{{ ansible_date_time.date }}'"
+        cmd: sqlite3 /var/lib/pve-cluster/config.db ".backup '/mnt/Library/backup/proxmox/prox/config.db.{{ ansible_date_time.date }}'"
 
