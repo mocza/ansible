@@ -3,14 +3,10 @@
   hosts: prox 
   become: yes
   tasks:
-    - name: Ensure backup directory exists
-      ansible.builtin.file:
-        path: /mnt/Library/backup/proxmox/prox
-        state: directory
     - name: Mount NFS share
       ansible.builtin.mount:
         src: "{{ nfs_server }}:/export/Library"
-        path: /mnt/Library/backup/proxmox/prox
+        path: /mnt/Library
         fstype: nfs
         opts: rw,sync
         state: mounted
