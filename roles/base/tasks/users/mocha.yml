@@ -9,7 +9,7 @@
   user:
     name: mocha
     group: coffee
-    groups: adm,ansible,{{ sudo_group }}
+    groups: adm,{{ sudo_group }}
     state: present
     password: "{{ mocha_passwd }}"
     shell: /bin/bash
