@@ -1,4 +1,4 @@
-### Homelab configuration using Ansible
+# Homelab configuration using Ansible
 Automated configuration of homelab servers and workstations.
 
 ## Run this right after OS install
