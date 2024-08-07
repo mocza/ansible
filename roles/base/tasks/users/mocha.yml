@@ -1,0 +1,215 @@
+- name: users | coffee | create group
+  tags: groups,coffee,users
+  group:
+    name: coffee 
+    state: present
+
+- name: users | mocha | create user
+  tags: mocha,sudo,users
+  user:
+    name: mocha
+    group: coffee
+    groups: adm,ansible,{{ sudo_group }}
+    state: present
+    password: "{{ mocha_passwd }}"
+    shell: /bin/bash
+
+- name: users | jay | jay | add sudoers file
+  tags: jay,settings,simone,sudo,system,users
+  copy:
+    src: users/sudoers_mocha
+    dest: /etc/sudoers.d/mocha
+    owner: root
+    group: root
+    mode: 0440
+
+- name: users | mocha | create .ssh directory
+  tags: dotfiles,mocha,ssh,users
+  file:
+    path: "{{ item.dir }}"
+    state: directory
+    owner: mocha
+    group: coffee
+    mode: 0700
+  with_items:
+    - { dir: '/home/mocha/.ssh' }
+
+- name: users | mocha | add public key
+  tags: dotfiles,mocha,ssh,ssh-keys,users
+  authorized_key:
+    user: mocha
+    key: "{{ item }}"
+  with_file:
+    - users/mocha/ssh/mocha_id_ed25519.pub
+
+- name: users | mocha | create config directories
+  tags: dotfiles,mocha,tmux,users,vim,zsh
+  file:
+    path: /home/mocha/{{ item.dir }}
+    state: directory
+    owner: mocha
+    group: coffee
+    mode: 0700
+  with_items:
+    - { dir: '.bash' }
+    - { dir: '.config' }
+    - { dir: '.config/htop' }
+    - { dir: '.config/mc' }
+    - { dir: '.tmux' }
+    - { dir: '.tmux/config' }
+    - { dir: '.tmux/plugins' }
+    - { dir: '.vim' }
+    - { dir: '.vim/autoload' }
+    - { dir: '.vim/bundle' }
+    - { dir: '.vim/colors' }
+    - { dir: '.vim/ftplugin' }
+    - { dir: '.zsh' }
+
+- name: users | mocha | copy tmux config (server version)
+  tags: dotfiles,users,jay,tmux,users,vim,zsh
+  copy:
+    src: users/mocha/tmux/tmux.conf.server
+    dest: /home/mocha/.tmux.conf
+    owner: mocha
+    group: coffee
+    mode: 0600
+  when: "'server' not in group_names"
+
+- name: users | mocha | copy tmux config (workstation version)
+  tags: dotfiles,users,mocha,tmux,users,vim,zsh
+  copy:
+    src: users/mocha/tmux/tmux.conf.workstation
+    dest: /home/mocha/.tmux.conf
+    owner: mocha
+    group: coffee
+    mode: 0600
+  when: "'server' in group_names"
+
+- name: users | mocha | copy dotfiles
+  tags: dotfiles,users,mocha,tmux,users,vim,zsh
+  copy:
+    src: users/mocha/{{ item.src }}
+    dest: /home/mocha/{{ item.dest }}
+    owner: mocha
+    group: coffee 
+    mode: 0600
+  with_items:
+    - { src: 'bash/bash_aliases', dest: '.bash/bash_aliases' }
+    - { src: 'bash/bash_profile', dest: '.bash_profile' }
+    - { src: 'bash/bash_prompt', dest: '.bash/bash_prompt' }
+    - { src: 'bash/bash_functions', dest: '.bash/bash_functions' }
+    - { src: 'bash/bashrc', dest: '.bashrc' }
+    - { src: 'bash/profile', dest: '.profile' }
+    - { src: 'git/gitconfig', dest: '.gitconfig' }
+    - { src: 'htop/htoprc', dest: '.config/htop/htoprc' }
+    - { src: 'inputrc', dest: '.inputrc' }
+    - { src: 'mc/mc.ini', dest: '.config/mc/ini' }
+    - { src: 'vim/vimrc', dest: '.vimrc' }
+    - { src: 'zsh/zshrc', dest: '.zshrc' }
+
+- name: users | mocha | clone tmux-completion plugin repository
+  tags: dotfiles,mocha,users,tmux
+  git:
+    repo: https://github.com/srsudar/tmux-completion.git
+    dest: /home/mocha/.tmux/plugins/completion
+    force: yes
+  notify: update_tmux_plugin_perms
+
+- name: users | mocha | clone tmux-continuum plugin repository
+  tags: dotfiles,mocha,users,tmux
+  git:
+    repo: https://github.com/tmux-plugins/tmux-continuum
+    dest: /home/mocha/.tmux/plugins/continuum
+    force: yes
+  notify: update_tmux_plugin_perms
+
+- name: users | mocha | clone tmux-resurrect plugin repository
+  tags: dotfiles,mocha,users,tmux
+  git:
+    repo: https://github.com/tmux-plugins/tmux-resurrect
+    dest: /home/mocha/.tmux/plugins/resurrect
+    force: yes
+  notify: update_tmux_plugin_perms
+
+- name: users | mocha | copy individual zsh config files
+  tags: dotfiles,mocha,users,zsh
+  copy:
+    src: users/mocha/zsh/{{ item.src }}
+    dest: /home/mocha/.zsh/{{ item.src }}
+    owner: mocha
+    group: coffee
+    mode: 0600
+  with_items:
+    - { src: 'aliases.zsh' }
+    - { src: 'bindkey.zsh' }
+    - { src: 'completion.zsh' }
+    - { src: 'exports.zsh' }
+    - { src: 'functions.zsh' }
+    - { src: 'history.zsh' }
+    - { src: 'path.zsh' }
+    - { src: 'plugins.zsh' }
+    - { src: 'prompt.zsh' }
+    - { src: 'setopt.zsh' }
+    - { src: 'theming.zsh' }
+
+- name: users | mocha | copy vim ftype files
+  tags: dotfiles,mocha,users,vim
+  copy:
+    src: users/mocha/vim/{{ item.src }}
+    dest: /home/mocha/.vim/ftplugin/{{ item.src }}
+    owner: mocha 
+    group: coffee
+    mode: 0600
+  with_items:
+    - { src: 'cmake.vim' }
+    - { src: 'cpp.vim' }
+    - { src: 'html.vim' }
+    - { src: 'perl.vim' }
+    - { src: 'python.vim' }
+    - { src: 'ruby.vim' }
+    - { src: 'sql.vim' }
+    - { src: 'xml.vim' }
+
+- name: users | mocha | copy vim color files
+  tags: dotfiles,mocha,users,vim
+  copy:
+    src: users/mocha/vim/{{ item.src }}
+    dest: /home/mocha/.vim/colors/{{ item.src }}
+    owner: mocha
+    group: coffee
+    mode: 0600
+  with_items:
+    - { src: 'bubblegum-256-dark.vim' }
+    - { src: 'darktango.vim' }
+    - { src: 'jellybeans.vim' }
+    - { src: 'xoria256.vim' }
+    - { src: 'zenburn.vim' }
+
+- name: users | mocha | install pathogen
+  tags: dotfiles,mocha,users,vim
+  copy:
+    src: users/mocha/vim/{{ item.src }}
+    dest: "{{ item.dest }}"
+    owner: mocha
+    group: coffee
+    mode: 0700
+  with_items:
+    - { src: 'pathogen.vim', dest: '/home/mocha/.vim/autoload/pathogen.vim' }
+
+- name: users | mocha | checkout git repositories
+  tags: git,users,mocha
+  become: yes
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    force: yes
+  with_items:
+    - { repo: 'https://github.com/ctrlpvim/ctrlp.vim.git', dest: '/home/mocha/.vim/bundle/ctrlp.vim' }
+    - { repo: 'https://github.com/davidhalter/jedi-vim.git', dest: '/home/mocha/.vim/bundle/jedi-vim' }
+    - { repo: 'https://github.com/pearofducks/ansible-vim', dest: '/home/mocha/.vim/bundle/ansible-vim' }
+    - { repo: 'https://github.com/rhysd/vim-grammarous.git', dest: '/home/mocha/.vim/bundle/vim-grammarous' }
+    - { repo: 'https://github.com/ron89/thesaurus_query.vim', dest: '/home/mocha/.vim/bundle/thesaurus_query' }
+    - { repo: 'https://github.com/scrooloose/nerdtree.git', dest: '/home/mocha/.vim/bundle/nerdtree' }
+    - { repo: 'https://github.com/tpope/vim-obsession.git', dest: '/home/mocha/.vim/bundle/vim-obsession' }
+    - { repo: 'https://github.com/vim-syntastic/syntastic.git', dest: '/home/mocha/.vim/bundle/syntastic' }
+  notify: update_vim_bundle_perms
