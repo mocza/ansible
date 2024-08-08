@@ -5,7 +5,7 @@
 - block:
   # Make sure users exist on the system
   - import_tasks: users/mocha.yml
-#  - import_tasks: users/root.yml
+  - import_tasks: users/root.yml
 
   # Set up the ansible environment
 #  - import_tasks: ansible_setup.yml

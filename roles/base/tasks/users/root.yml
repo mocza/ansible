@@ -1,4 +1,4 @@
-- name: users | root | ensure account is locked
+- name: users | root | ensure account is NOT locked
   user:
     name: root
     password_lock: no
