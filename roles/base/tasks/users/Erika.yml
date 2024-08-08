@@ -1,0 +1,16 @@
+- name: users | family | create group
+  tags: groups,family,users
+  group:
+    name: family
+    gid: 1000 
+    state: present
+
+- name: users | Erika | create user
+  tags: Erika,users
+  user:
+    name: Erika
+    uid: 1001
+    group: family 
+    state: present
+    password: "{{ Erika_passwd }}"
+    shell: /bin/bash

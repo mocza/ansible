@@ -2,20 +2,22 @@
   tags: groups,coffee,users
   group:
     name: coffee 
+    gid: 1002
     state: present
 
 - name: users | mocha | create user
   tags: mocha,sudo,users
   user:
     name: mocha
+    uid: 1002
     group: coffee
     groups: adm,{{ sudo_group }}
     state: present
     password: "{{ mocha_passwd }}"
     shell: /bin/bash
 
-- name: users | jay | jay | add sudoers file
-  tags: jay,settings,simone,sudo,system,users
+- name: users | coffee | mocha | add sudoers file
+  tags: mocha,settings,sudo,system,users
   copy:
     src: users/sudoers_mocha
     dest: /etc/sudoers.d/mocha
