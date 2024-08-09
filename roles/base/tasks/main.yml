@@ -16,7 +16,7 @@
 #  - import_tasks: software/repositories.yml
   - import_tasks: software/packages_development.yml
   - import_tasks: software/packages_cleanup.yml
-  - import_tasks: software/packages_pip.yml
+#  - import_tasks: software/packages_pip.yml	# cannot install python modules using pip in externally managed python environments 
   - import_tasks: software/packages_utilities.yml
 
   # Perform remaining tasks:
