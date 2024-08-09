@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # options
-ANSIBLEUSER="<ansible-user-name>"
+ANSIBLEUSER="mocha"
 BRANCH="{{ branch | default('main') }}"
 LOGFILE="/var/log/ansible.log"
-REPO="<https://url-to-git-server/ansible.git>"
+REPO="https://github.com/mocza/ansible"
 VAULT_KEY="</path/to/ansible_vault_key">
 PRECMD="sudo systemd-inhibit --who='ansible-pull' --why='provisioning'"
 
