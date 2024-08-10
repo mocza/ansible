@@ -1,9 +1,15 @@
 #!/bin/bash
 # Run this script as the root user right after OS install as a preliminary step before applying automated configuration using Ansible pull.
+#
+# curl https://raw.githubusercontent.com/mocza/ansible/main/preface.sh | sudo bash
+#
 # This script is meant to do minimal settings before any other automated configuration to a fresh OS installation can happen:
 # - detects OS: Debian or Arch Linux
 # - detects PVE host and configures apt sources for PVE no-subscription repository
 # - installs pre-requisites for Ansible
+#
+# Run ansible-pull to deploy configuration once the this script was executed:
+# ansible-pull -U https://github.com/mocza/ansible.git
 
 
 # Function to configure PVE no-subscription repository
