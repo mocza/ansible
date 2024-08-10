@@ -9,7 +9,7 @@
   tags: Zsolti,users
   user:
     name: Zsolti
-    uid: 1002 
+    uid: 1000
     group: family 
     state: present
     password: "{{ Zsolti_passwd }}"
