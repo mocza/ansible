@@ -8,7 +8,7 @@
 - name: users | Zsolti | create user
   tags: Zsolti,users
   user:
-    name: mocha
+    name: Zsolti
     uid: 1002 
     group: family 
     state: present
