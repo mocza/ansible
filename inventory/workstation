@@ -1,0 +1,3 @@
+[daily-driver]
+manjaro-mocha ansible_host=192.168.1.222
+manjaro-erika ansible_host=192.168.1.223
