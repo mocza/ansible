@@ -8,8 +8,8 @@
 - name: users | Zsolti | create user
   tags: Zsolti,users
   user:
-    name: mocha
-    uid: 1002 
+    name: Zsolti
+    uid: 1000
     group: family 
     state: present
     password: "{{ Zsolti_passwd }}"
