@@ -1,5 +1,5 @@
 [server]
-prox 192.168.1.10
-prox-z690-a 192.168.1.12
+prox ansible_host=192.168.1.10
+prox-z690-a ansible_host=192.168.1.12
   
 #[workstation]
