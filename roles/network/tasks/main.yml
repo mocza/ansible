@@ -1,0 +1,4 @@
+---
+- name: Update packages 
+  community.general.opkg:
+    update_cache: true
