@@ -1,4 +1,4 @@
 ---
 collections:
   - name: community.general
-    version: '4.4.0'  # Specify the version if needed; omit for the latest version
+    version: '9.2.0'  # Specify the version if needed; omit for the latest version
