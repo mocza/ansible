@@ -12,5 +12,5 @@
       chat_id: "{{ telegram_chat_id }}"
       msg_format: markdown
       parse_mode: markdown
-      msg: "✔️  Ansible provision finished on *{{ ansible_hostname }}*"
+      text: "✔️  Ansible provision finished on *{{ ansible_hostname }}*"
   changed_when: False
