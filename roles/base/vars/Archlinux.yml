@@ -13,7 +13,7 @@ python_pip_package: python-pip
 python_psutil_package: python-psutil
 python_pyflakes_package: python-pyflakes
 python_virtualenv_package: python-virtualenv
-python_setuptools: python3-setuptools
+python_setuptools: python-setuptools
 rename_package: perl-rename
 ruby_rake_package: ruby-rake
 sftp_path: /usr/lib/ssh/sftp-server
