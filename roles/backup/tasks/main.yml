@@ -1,4 +1,3 @@
----
 - name: Backup PVE config: config.db + /etc 
   hosts: prox 
   become: yes
