@@ -8,8 +8,8 @@
 # - detects PVE host and configures apt sources for PVE no-subscription repository
 # - installs pre-requisites for Ansible
 #
-# Run ansible-pull to deploy configuration once the this script was executed:
-# ansible-pull -U https://github.com/mocza/ansible.git
+# Run ansible-pull as root for the first time (sudo might not be setup) to deploy configuration once the this script was executed:
+# ansible-pull -U https://github.com/mocza/ansible.git --vault-id @prompt
 
 
 # Function to configure PVE no-subscription repository

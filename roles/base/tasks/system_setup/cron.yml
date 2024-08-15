@@ -1,3 +1,10 @@
+- name: system setup | at | install at package
+  tags: packages,at
+  package:
+    name:
+      - at 
+    state: latest
+
 - name: system setup | cron | install cron package
   tags: packages,cron
   package:
