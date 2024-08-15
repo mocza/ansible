@@ -1,4 +1,4 @@
-- name: Backup PVE config: config.db + /etc 
+- name: Backup PVE config config.db + /etc 
   hosts: prox 
   become: yes
   tasks:
