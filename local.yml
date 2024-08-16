@@ -28,17 +28,23 @@
 #  roles:
 #    - workstation
 
-#- hosts: server
+#- hosts: server, pve
 #  tags: server
 #  become: true
 #  roles:
 #    - server
 
-- hosts: network 
-  tags: network 
+- hosts: pve
+  tags: pve
   become: true
   roles:
-    - network 
+    - pve
+
+#- hosts: network 
+#  tags: network 
+#  become: true
+#  roles:
+#    - network 
 
 # end of run cleanup and reporting
 - hosts: all
