@@ -1,6 +1,7 @@
 - name: Install the Python package proxmoxer
-  become: yes
   hosts: all
+  become: yes
+
   tasks:
     - name: Install proxmoxer package using pip
       pip:
