@@ -22,17 +22,23 @@
   roles:
     - base
 
-#- hosts: workstation
-#  tags: workstation
-#  become: true
-#  roles:
-#    - workstation
+- hosts: workstation
+  tags: workstation
+  become: true
+  roles:
+    - workstation
 
-#- hosts: server
-#  tags: server
-#  become: true
-#  roles:
-#    - server
+- hosts: vm
+  tags: vm
+  become: true
+  roles:
+    - vm
+
+- hosts: server
+  tags: server
+  become: true
+  roles:
+    - server
 
 - hosts: pve_host
   tags: pve

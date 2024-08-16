@@ -1,4 +1,4 @@
-- name: Install proxmoxer package using pip
+- name: pve | install proxmoxer package 
   package:
     name: python3-proxmoxer
     state: latest
