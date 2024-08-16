@@ -28,19 +28,20 @@
 #  roles:
 #    - workstation
 
-#- hosts: server, pve
+#- hosts: server
 #  tags: server
 #  become: true
 #  roles:
 #    - server
 
-- hosts: pve
+- hosts: pve_host
   tags: pve
   become: true
   roles:
+    - server
     - pve
 
-#- hosts: network 
+#- hosts: network_device 
 #  tags: network 
 #  become: true
 #  roles:
