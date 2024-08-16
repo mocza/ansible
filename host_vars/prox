@@ -1,5 +1,5 @@
 ---
-branch: master
+branch: main 
 
 ansible_cron_minute: "40"
 ssh_port: 22
@@ -9,7 +9,7 @@ ssh_users: "mocha root"
 linode_instance: false
 microcode_amd_install: false
 microcode_intel_install: false
-proxmox_instance: true
+proxmox_instance: false
 raspberry_pi: false
 
 # server

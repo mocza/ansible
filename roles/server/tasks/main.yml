@@ -5,7 +5,6 @@
 - block:
   - import_tasks: nrpe.yml
 #  - import_tasks: ufw.yml
-  - import_tasks: qemu-agent.yml
 
 #  - include_tasks: unattended_upgrades.yml
 #    when:
