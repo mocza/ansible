@@ -1,5 +1,4 @@
 - name: Install proxmoxer package using pip
-  pip:
-    name: proxmoxer
-    state: present
-    executable: pip3
+  package:
+    name: python3-proxmoxer
+    state: latest
