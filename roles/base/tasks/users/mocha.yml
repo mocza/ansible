@@ -1,3 +1,10 @@
+- name: users | users | create group
+  tags: groups,users,users
+  group:
+    name: users 
+    gid: 100
+    state: present
+
 - name: users | coffee | create group
   tags: groups,coffee,users
   group:
