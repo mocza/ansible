@@ -18,7 +18,6 @@
     name: Zsolti
     uid: 1000
     group: family
-    append: true
     groups: users
     state: present
     password: "{{ Zsolti_passwd }}"
