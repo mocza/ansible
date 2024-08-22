@@ -1,5 +1,5 @@
 - name: users | users | create group
-  tags: groups,users,users
+  tags: groups,users
   group:
     name: users 
     gid: 100
@@ -18,7 +18,7 @@
     name: mocha
     uid: 1002
     group: coffee
-    groups: adm,{{ sudo_group }}
+    groups: users,adm,{{ sudo_group }}
     state: present
     password: "{{ mocha_passwd }}"
     shell: /bin/bash
