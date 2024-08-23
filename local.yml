@@ -16,7 +16,7 @@
       when: ansible_distribution in ["Debian", "Ubuntu"]
 
 # run roles
-- hosts: all
+- hosts: all:!network_device
   tags: base
   become: true
   roles:
@@ -47,11 +47,10 @@
     - server
     - pve
 
-#- hosts: network_device 
-#  tags: network 
-#  become: true
-#  roles:
-#    - network 
+- hosts: network_device 
+  tags: network 
+  roles:
+    - network 
 
 # end of run cleanup and reporting
 - hosts: all
