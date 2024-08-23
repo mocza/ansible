@@ -3,6 +3,9 @@
 #
 # curl https://raw.githubusercontent.com/mocza/ansible/main/preface.sh | sudo bash
 #
+# On a network device running OpenWRT (installs only python but no git nad ansible so ansible-pull won't work):
+# wget -qO- https://raw.githubusercontent.com/mocza/ansible/main/preface.sh | sh
+#
 # This script is meant to do minimal settings before any other automated configuration to a fresh OS installation can happen:
 # - detects OS: Debian or Arch Linux
 # - detects PVE host and configures apt sources for PVE no-subscription repository
