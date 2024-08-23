@@ -75,11 +75,27 @@ install_arch() {
     ansible --version
 }
 
+install_openwrt() {
+    echo "Updating opkg package list..."
+    opkg update
+
+    echo "Installing Python..."
+    opkg install python3
+
+    if [ $? -eq 0 ]; then
+        echo "Python successfully installed."
+    else
+        echo "Failed to install Python."
+    fi
+}
+
 # Detect the operating system
 if [ -f /etc/debian_version ]; then
     install_debian
 elif [ -f /etc/arch-release ]; then
     install_arch
+elif [ -f /etc/openwrt_release ] || [ -f /etc/openwrt_version ]; then
+    install_openwrt
 else
     echo "Unsupported operating system."
     exit 1
