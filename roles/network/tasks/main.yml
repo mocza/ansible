@@ -1,5 +1,4 @@
----
-- name: Update packages 
+- name: Update opkg packages 
   gather_facts: no
   community.general.opkg:
     update_cache: true
