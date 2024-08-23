@@ -1,8 +1,6 @@
 ---
 - name: Update packages 
   gather_facts: no
-  vars:
-    ansible_user: root    
   community.general.opkg:
     update_cache: true
 
