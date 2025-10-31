@@ -1,9 +1,9 @@
-- name: Network device tasks 
+#- name: Network device tasks 
 #  hosts: all
 #  gather_facts: no
-
-  tasks:
-    - name: Update opkg packages 
-      community.general.opkg:
-        update_cache: true
+#
+#  tasks:
+#    - name: Update opkg packages 
+#      community.general.opkg:
+#        update_cache: true
 
