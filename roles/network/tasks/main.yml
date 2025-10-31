@@ -1,6 +1,6 @@
 - name: Network device tasks 
-  hosts: all
-  gather_facts: no
+#  hosts: all
+#  gather_facts: no
 
   tasks:
     - name: Update opkg packages 
