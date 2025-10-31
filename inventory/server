@@ -2,3 +2,4 @@
 ProxmoxBackupServer ansible_host=192.168.1.112
 PiHole ansible_host=192.168.1.101
 OpenMediaVault ansible_host=192.168.1.110
+lord-of-the-files ansible_host=192.168.1.107
