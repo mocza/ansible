@@ -116,13 +116,13 @@
     - { src: 'vim/vimrc', dest: '.vimrc' }
     - { src: 'zsh/zshrc', dest: '.zshrc' }
 
-- name: users | mocha | clone tmux-completion plugin repository
-  tags: dotfiles,mocha,users,tmux
-  git:
-    repo: https://github.com/srsudar/tmux-completion.git
-    dest: /home/mocha/.tmux/plugins/completion
-    force: yes
-  notify: update_tmux_plugin_perms
+#- name: users | mocha | clone tmux-completion plugin repository
+#  tags: dotfiles,mocha,users,tmux
+#  git:
+#    repo: https://github.com/srsudar/tmux-completion.git
+#    dest: /home/mocha/.tmux/plugins/completion
+#    force: yes
+#  notify: update_tmux_plugin_perms
 
 - name: users | mocha | clone tmux-continuum plugin repository
   tags: dotfiles,mocha,users,tmux
