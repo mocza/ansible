@@ -124,21 +124,21 @@
 #    force: yes
 #  notify: update_tmux_plugin_perms
 
-- name: users | mocha | clone tmux-continuum plugin repository
-  tags: dotfiles,mocha,users,tmux
-  git:
-    repo: https://github.com/tmux-plugins/tmux-continuum
-    dest: /home/mocha/.tmux/plugins/continuum
-    force: yes
-  notify: update_tmux_plugin_perms
+#- name: users | mocha | clone tmux-continuum plugin repository
+#  tags: dotfiles,mocha,users,tmux
+#  git:
+#    repo: https://github.com/tmux-plugins/tmux-continuum
+#    dest: /home/mocha/.tmux/plugins/continuum
+#    force: yes
+#  notify: update_tmux_plugin_perms
 
-- name: users | mocha | clone tmux-resurrect plugin repository
-  tags: dotfiles,mocha,users,tmux
-  git:
-    repo: https://github.com/tmux-plugins/tmux-resurrect
-    dest: /home/mocha/.tmux/plugins/resurrect
-    force: yes
-  notify: update_tmux_plugin_perms
+#- name: users | mocha | clone tmux-resurrect plugin repository
+#  tags: dotfiles,mocha,users,tmux
+#  git:
+#    repo: https://github.com/tmux-plugins/tmux-resurrect
+#    dest: /home/mocha/.tmux/plugins/resurrect
+#    force: yes
+#  notify: update_tmux_plugin_perms
 
 - name: users | mocha | copy individual zsh config files
   tags: dotfiles,mocha,users,zsh
