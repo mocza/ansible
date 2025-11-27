@@ -2,3 +2,9 @@
   package:
     name: python3-proxmoxer
     state: latest
+
+- name: pve | install sanoid package
+  package:
+    name: sanoid
+    state: latest
+  when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
