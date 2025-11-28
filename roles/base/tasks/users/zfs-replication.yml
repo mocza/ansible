@@ -21,14 +21,12 @@
   tags: zfs-replication,ssh,users,pve
   authorized_key:
     user: zfs-replication
-    key: "{{ item }}"
-  with_file:
-    - users/zfs-replication/ssh/zfs-replication-goher-2025.pub
+    key: "{{ lookup('file', 'roles/base/files/users/zfs-replication/ssh/zfs-replication-goher-2025.pub') }}"
 
 - name: users | zfs-replication | add sudoers file
   tags: zfs-replication,settings,sudo,system,users,pve
   copy:
-    src: users/sudoers_zfs-replication
+    content: "{{ lookup('file', 'roles/base/files/users/sudoers_zfs-replication') }}"
     dest: /etc/sudoers.d/zfs-replication
     owner: root
     group: root
