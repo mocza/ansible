@@ -1,0 +1,12 @@
+[Unit]
+Description=Syncoid ZFS Replication Timer (prox to prox1)
+Requires=syncoid-prox-to-prox1.service
+
+[Timer]
+# Run every 4 hours to replicate snapshots from prox
+OnCalendar=*:0/4:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

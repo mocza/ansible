@@ -28,6 +28,38 @@
   # Note: zfs allow is idempotent - running multiple times is safe
   # Permissions needed for syncoid: send (for sending snapshots), receive (for receiving snapshots)
 
+- name: pve | create root .ssh directory on prox1 (for syncoid SSH key)
+  tags: pve,zfs-replication,syncoid
+  file:
+    path: /root/.ssh
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  when: inventory_hostname == 'prox1'
+
+- name: pve | check if SSH private key exists in repo
+  tags: pve,zfs-replication,syncoid
+  stat:
+    path: "{{ playbook_dir }}/roles/base/files/users/zfs-replication/ssh/zfs-replication-goher-2025"
+  register: zfs_replication_privkey_check
+  when: inventory_hostname == 'prox1'
+  failed_when: false
+
+- name: pve | deploy SSH private key to prox1 root (for syncoid to connect to prox)
+  tags: pve,zfs-replication,syncoid
+  copy:
+    src: ../base/files/users/zfs-replication/ssh/zfs-replication-goher-2025
+    dest: /root/.ssh/zfs-replication-goher-2025
+    owner: root
+    group: root
+    mode: 0600
+  when: 
+    - inventory_hostname == 'prox1'
+    - zfs_replication_privkey_check.stat.exists | default(false)
+  # Note: The private key file must exist at roles/base/files/users/zfs-replication/ssh/zfs-replication-goher-2025
+  # If the file doesn't exist, you'll need to manually copy it to /root/.ssh/zfs-replication-goher-2025 on prox1
+
 - name: pve | create sanoid configuration directory
   tags: pve,sanoid
   file:
@@ -120,3 +152,47 @@
     name: sanoid.timer
     enabled: yes
     state: started
+
+- name: pve | deploy syncoid replication service (prox to prox1)
+  tags: pve,syncoid
+  copy:
+    src: systemd/syncoid-prox-to-prox1.service
+    dest: /etc/systemd/system/syncoid-prox-to-prox1.service
+    owner: root
+    group: root
+    mode: 0644
+  when: inventory_hostname == 'prox1'
+
+- name: pve | deploy syncoid replication timer (prox to prox1)
+  tags: pve,syncoid
+  copy:
+    src: systemd/syncoid-prox-to-prox1.timer
+    dest: /etc/systemd/system/syncoid-prox-to-prox1.timer
+    owner: root
+    group: root
+    mode: 0644
+  when: inventory_hostname == 'prox1'
+
+- name: pve | reload systemd daemon (for syncoid)
+  tags: pve,syncoid
+  systemd:
+    daemon_reload: yes
+  when: inventory_hostname == 'prox1'
+
+- name: pve | enable and start syncoid timer (prox to prox1)
+  tags: pve,syncoid
+  systemd:
+    name: syncoid-prox-to-prox1.timer
+    enabled: yes
+    state: started
+  when: inventory_hostname == 'prox1'
+
+- name: pve | run syncoid service once immediately (prox to prox1)
+  tags: pve,syncoid
+  systemd:
+    name: syncoid-prox-to-prox1.service
+    state: started
+  when: inventory_hostname == 'prox1'
+  ignore_errors: yes
+  # Note: This may fail if prox is not available yet, which is fine
+  # The timer will retry later, and ExecStartPre will wait for prox to be available

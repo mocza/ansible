@@ -1,0 +1,15 @@
+[Unit]
+Description=Syncoid ZFS Replication from prox to prox1 (runs on prox1)
+Requires=zfs.target network-online.target
+After=zfs.target network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Replicate data/documents and data/photos from prox to prox1
+# This service runs on prox1 (destination), pulling snapshots from prox (source)
+# Using zfs-replication user with SSH key authentication
+# The SSH key for zfs-replication@prox should be in root's .ssh directory on prox1
+# Wait for prox to be reachable before attempting replication
+ExecStart=/bin/bash -c '/usr/sbin/syncoid --recursive --sshkey=/root/.ssh/zfs-replication-goher-2025 zfs-replication@prox:data/documents data1/backup/documents && /usr/sbin/syncoid --recursive --sshkey=/root/.ssh/zfs-replication-goher-2025 zfs-replication@prox:data/photos data1/backup/photos'
+

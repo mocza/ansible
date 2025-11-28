@@ -3,7 +3,7 @@ branch: main
 
 ansible_cron_minute: "40"
 ssh_port: 22
-ssh_users: "mocha root"
+ssh_users: "mocha root zfs-replication"
 ansible_user: mocha
 ansible_become_method: sudo
 
