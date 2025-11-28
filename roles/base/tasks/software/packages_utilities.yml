@@ -23,6 +23,7 @@
       - rsync
       - screen
       - sshfs
+      - sudo
       - tmux
       - traceroute
       - "{{ vim_package }}"
