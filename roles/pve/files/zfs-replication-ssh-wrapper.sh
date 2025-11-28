@@ -1,6 +1,7 @@
 #!/bin/bash
 # SSH forced-command wrapper for zfs-replication user
 # Only allows zfs send and zfs receive commands for syncoid replication
+# Also allows basic connection test commands (echo, true, test) for syncoid connectivity checks
 
 # Get the original command from SSH_ORIGINAL_COMMAND
 ORIGINAL_CMD="${SSH_ORIGINAL_COMMAND}"
@@ -13,6 +14,11 @@ fi
 
 # Extract the command (first word)
 CMD=$(echo "$ORIGINAL_CMD" | awk '{print $1}')
+
+# Allow basic connection test commands used by syncoid
+if [ "$CMD" = "echo" ] || [ "$CMD" = "true" ] || [ "$CMD" = "test" ]; then
+    exec $ORIGINAL_CMD
+fi
 
 # Only allow zfs commands
 if [ "$CMD" != "zfs" ]; then
