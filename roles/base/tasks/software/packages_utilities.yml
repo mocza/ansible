@@ -1,3 +1,9 @@
+- name: system setup | utilities | install sudo (critical package)
+  tags: packages,system,settings
+  package:
+    name: sudo
+    state: latest
+
 - name: system setup | utilities | install utility packages
   tags: packages,system,settings
   package:
@@ -23,7 +29,6 @@
       - rsync
       - screen
       - sshfs
-      - sudo
       - tmux
       - traceroute
       - "{{ vim_package }}"
@@ -31,6 +36,7 @@
       - whois
       - zsh
       - bpytop
+  ignore_errors: yes
 
 - name: system setup | utilities | install man-pages (arch)
   tags: packages,system,settings
