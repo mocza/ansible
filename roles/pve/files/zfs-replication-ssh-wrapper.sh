@@ -6,6 +6,10 @@
 # Get the original command from SSH_ORIGINAL_COMMAND
 ORIGINAL_CMD="${SSH_ORIGINAL_COMMAND}"
 
+# Debug logging (remove after troubleshooting)
+echo "DEBUG: SSH_ORIGINAL_COMMAND=[$SSH_ORIGINAL_COMMAND]" >&2
+echo "DEBUG: ORIGINAL_CMD=[$ORIGINAL_CMD]" >&2
+
 # If no command was provided, deny access
 if [ -z "$ORIGINAL_CMD" ]; then
     echo "Access denied: No command provided" >&2

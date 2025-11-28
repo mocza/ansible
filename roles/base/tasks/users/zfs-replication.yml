@@ -3,7 +3,7 @@
   user:
     name: zfs-replication
     system: yes
-    shell: /usr/sbin/nologin
+    shell: /bin/bash
     home: /var/lib/zfs-replication
     create_home: yes
     state: present
