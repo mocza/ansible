@@ -33,9 +33,10 @@ fi
 # Extract the zfs subcommand (second word)
 ZFS_SUBCMD=$(echo "$ORIGINAL_CMD" | awk '{print $2}')
 
-# Only allow send and receive subcommands
-if [ "$ZFS_SUBCMD" != "send" ] && [ "$ZFS_SUBCMD" != "receive" ]; then
-    echo "Access denied: Only 'zfs send' and 'zfs receive' commands are allowed" >&2
+# Allow list subcommand (needed by syncoid to check if datasets exist)
+# Allow send and receive subcommands (needed for replication)
+if [ "$ZFS_SUBCMD" != "send" ] && [ "$ZFS_SUBCMD" != "receive" ] && [ "$ZFS_SUBCMD" != "list" ]; then
+    echo "Access denied: Only 'zfs list', 'zfs send' and 'zfs receive' commands are allowed" >&2
     exit 1
 fi
 
