@@ -8,3 +8,6 @@
     name: sanoid
     state: latest
   when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+
+- name: pve | create zfs-replication user for syncoid replication
+  import_tasks: ../base/tasks/users/zfs-replication.yml

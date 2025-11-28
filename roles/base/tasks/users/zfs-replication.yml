@@ -1,0 +1,36 @@
+- name: users | zfs-replication | create user
+  tags: zfs-replication,users,pve
+  user:
+    name: zfs-replication
+    system: yes
+    shell: /usr/sbin/nologin
+    home: /var/lib/zfs-replication
+    create_home: yes
+    state: present
+
+- name: users | zfs-replication | create .ssh directory
+  tags: zfs-replication,ssh,users,pve
+  file:
+    path: /var/lib/zfs-replication/.ssh
+    state: directory
+    owner: zfs-replication
+    group: zfs-replication
+    mode: 0700
+
+- name: users | zfs-replication | add public key
+  tags: zfs-replication,ssh,users,pve
+  authorized_key:
+    user: zfs-replication
+    key: "{{ item }}"
+  with_file:
+    - users/zfs-replication/ssh/zfs-replication-goher-2025.pub
+
+- name: users | zfs-replication | add sudoers file
+  tags: zfs-replication,settings,sudo,system,users,pve
+  copy:
+    src: users/sudoers_zfs-replication
+    dest: /etc/sudoers.d/zfs-replication
+    owner: root
+    group: root
+    mode: 0440
+
