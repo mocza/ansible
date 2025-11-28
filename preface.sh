@@ -18,15 +18,16 @@
 # Function to configure PVE no-subscription repository
 configure_pve_repo() {
     echo "Configuring Proxmox VE no-subscription repository..."
-    tee /etc/apt/sources.list.d/pve-no-subscription.list <<EOF
-deb http://download.proxmox.com/debian/pve bullseye pve-no-subscription
+    tee /etc/apt/sources.list.d/proxmos.sources <<EOF
+Types: deb
+URIs: http://download.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
 EOF
 
-    # Disable the enterprise repository
-    mv /etc/apt/sources.list.d/pve-enterprise.list /etc/apt/sources.list.d/pve-enterprise.list.disabled
-
     # Disable the CEPH repository
-    mv /etc/apt/sources.list.d/ceph.list /etc/apt/sources.list.d/ceph.list.disabled
+    mv /etc/apt/sources.list.d/ceph.sources /etc/apt/sources.list.d/ceph.sources.disabled
 }
 
 # Function to install prerequisites on Debian-based systems
