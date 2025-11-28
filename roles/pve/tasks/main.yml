@@ -37,6 +37,30 @@
     group: root
     mode: 0755
 
+- name: pve | check if sanoid.defaults.conf exists in package locations
+  tags: pve,sanoid
+  stat:
+    path: "{{ item }}"
+  register: sanoid_defaults_check
+  loop:
+    - /usr/share/sanoid/sanoid.defaults.conf
+    - /usr/share/doc/sanoid/examples/sanoid.defaults.conf
+  failed_when: false
+  changed_when: false
+
+- name: pve | copy sanoid.defaults.conf from package location
+  tags: pve,sanoid
+  copy:
+    src: "{{ item.item }}"
+    dest: /etc/sanoid/sanoid.defaults.conf
+    owner: root
+    group: root
+    mode: 0644
+    remote_src: yes
+  loop: "{{ sanoid_defaults_check.results }}"
+  when: item.stat.exists | default(false)
+  ignore_errors: yes
+
 - name: pve | deploy sanoid configuration file (prox)
   tags: pve,sanoid
   copy:
