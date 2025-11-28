@@ -32,3 +32,5 @@
     command: "if ! pgrep -f ansible-pull >/dev/null; then rm -rf /home/mocha/.ansible; fi"
     count: 60
     units: minutes
+  when: ansible_facts['packages']['at'] is defined
+  ignore_errors: yes

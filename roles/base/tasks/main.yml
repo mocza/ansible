@@ -4,7 +4,14 @@
   tags: always
 
 - block:
-  # Make sure users exist on the system
+  # install software first (needed for user setup tasks like git checkout)
+#  - import_tasks: software/repositories.yml
+  - import_tasks: software/packages_development.yml
+  - import_tasks: software/packages_cleanup.yml
+#  - import_tasks: software/packages_pip.yml	# cannot install python modules using pip in externally managed python environments 
+  - import_tasks: software/packages_utilities.yml
+
+  # Make sure users exist on the system (after git is installed)
   - import_tasks: users/mocha.yml
   - import_tasks: users/root.yml
   - import_tasks: users/Zsolti.yml
@@ -12,13 +19,6 @@
 
   # Set up the ansible environment
   - import_tasks: ansible_setup.yml
-
-  # install software
-#  - import_tasks: software/repositories.yml
-  - import_tasks: software/packages_development.yml
-  - import_tasks: software/packages_cleanup.yml
-#  - import_tasks: software/packages_pip.yml	# cannot install python modules using pip in externally managed python environments 
-  - import_tasks: software/packages_utilities.yml
 
   # Perform remaining tasks:
 #  - import_tasks: system_setup/clock.yml
