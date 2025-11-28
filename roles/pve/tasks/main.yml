@@ -11,3 +11,88 @@
 
 - name: pve | create zfs-replication user for syncoid replication
   import_tasks: ../base/tasks/users/zfs-replication.yml
+
+- name: pve | deploy SSH wrapper script for zfs-replication user
+  tags: pve,zfs-replication
+  copy:
+    src: zfs-replication-ssh-wrapper.sh
+    dest: /usr/local/sbin/zfs-replication-ssh-wrapper
+    owner: root
+    group: root
+    mode: 0755
+
+- name: pve | grant zfs permissions to zfs-replication user (data pool)
+  tags: pve,zfs-replication
+  command: zfs allow -ldu zfs-replication send,receive {{ zfs_pool_name | default('data') }}
+  changed_when: false
+  # Note: zfs allow is idempotent - running multiple times is safe
+  # Permissions needed for syncoid: send (for sending snapshots), receive (for receiving snapshots)
+
+- name: pve | create sanoid configuration directory
+  tags: pve,sanoid
+  file:
+    path: /etc/sanoid
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: pve | deploy sanoid configuration file (prox)
+  tags: pve,sanoid
+  copy:
+    src: sanoid-prox.conf
+    dest: /etc/sanoid/sanoid.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: inventory_hostname == 'prox'
+
+- name: pve | deploy sanoid configuration file (prox1)
+  tags: pve,sanoid
+  copy:
+    src: sanoid-prox1.conf
+    dest: /etc/sanoid/sanoid.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: inventory_hostname == 'prox1'
+
+- name: pve | deploy sanoid configuration file (prox2)
+  tags: pve,sanoid
+  copy:
+    src: sanoid-prox2.conf
+    dest: /etc/sanoid/sanoid.conf
+    owner: root
+    group: root
+    mode: 0644
+  when: inventory_hostname == 'prox2'
+
+- name: pve | deploy sanoid systemd service file
+  tags: pve,sanoid
+  copy:
+    src: systemd/sanoid.service
+    dest: /etc/systemd/system/sanoid.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: pve | deploy sanoid systemd timer file
+  tags: pve,sanoid
+  copy:
+    src: systemd/sanoid.timer
+    dest: /etc/systemd/system/sanoid.timer
+    owner: root
+    group: root
+    mode: 0644
+
+- name: pve | reload systemd daemon
+  tags: pve,sanoid
+  systemd:
+    daemon_reload: yes
+
+- name: pve | enable and start sanoid timer
+  tags: pve,sanoid
+  systemd:
+    name: sanoid.timer
+    enabled: yes
+    state: started

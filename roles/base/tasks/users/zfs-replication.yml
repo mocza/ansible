@@ -17,18 +17,19 @@
     group: zfs-replication
     mode: 0700
 
-- name: users | zfs-replication | add public key
+- name: users | zfs-replication | read public key content
   tags: zfs-replication,ssh,users,pve
-  authorized_key:
-    user: zfs-replication
-    key: "{{ lookup('file', 'roles/base/files/users/zfs-replication/ssh/zfs-replication-goher-2025.pub') }}"
+  set_fact:
+    zfs_replication_pubkey: "{{ lookup('file', 'roles/base/files/users/zfs-replication/ssh/zfs-replication-goher-2025.pub') | trim }}"
 
-- name: users | zfs-replication | add sudoers file
-  tags: zfs-replication,settings,sudo,system,users,pve
-  copy:
-    content: "{{ lookup('file', 'roles/base/files/users/sudoers_zfs-replication') }}"
-    dest: /etc/sudoers.d/zfs-replication
-    owner: root
-    group: root
-    mode: 0440
+- name: users | zfs-replication | add public key with forced-command and security options
+  tags: zfs-replication,ssh,users,pve
+  lineinfile:
+    path: /var/lib/zfs-replication/.ssh/authorized_keys
+    line: 'command="/usr/local/sbin/zfs-replication-ssh-wrapper",no-agent-forwarding,no-port-forwarding,no-X11-forwarding,no-pty {{ zfs_replication_pubkey }}'
+    create: yes
+    owner: zfs-replication
+    group: zfs-replication
+    mode: '0600'
+    regexp: '{{ zfs_replication_pubkey | regex_escape() }}'
 

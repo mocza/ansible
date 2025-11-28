@@ -1,6 +1,0 @@
-# Allow zfs-replication user to run only zfs send and receive commands needed by syncoid
-# This user is used for syncoid replication between PVE hosts
-# Note: zfs command path may vary (/usr/sbin/zfs or /sbin/zfs)
-zfs-replication ALL=(ALL) NOPASSWD: /usr/sbin/zfs send *, /usr/sbin/zfs receive *
-zfs-replication ALL=(ALL) NOPASSWD: /sbin/zfs send *, /sbin/zfs receive *
-

@@ -1,0 +1,11 @@
+[Unit]
+Description=Sanoid ZFS Snapshot Timer
+Requires=sanoid.service
+
+[Timer]
+OnCalendar=*:0/15
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+

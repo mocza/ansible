@@ -1,0 +1,9 @@
+[Unit]
+Description=Sanoid ZFS Snapshot Management
+Requires=zfs.target
+After=zfs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/sanoid --cron
+
