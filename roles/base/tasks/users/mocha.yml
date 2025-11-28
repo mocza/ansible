@@ -6,7 +6,7 @@
     state: present
 
 - name: users | coffee | create group
-  tags: groups,coffee,users
+  tags: groups,coffee,users,mocha
   group:
     name: coffee 
     gid: 1002

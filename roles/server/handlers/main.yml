@@ -1,9 +1,10 @@
 ---
 - name: restart_nrpe
   tags: nagios,nrpe
-  service:
+  systemd:
     name: "{{ nrpe_service }}"
     state: restarted
+  failed_when: false
 
 - name: restart_qemu_agent
   tags: qemu,qemu-agent

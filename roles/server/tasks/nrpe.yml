@@ -20,10 +20,28 @@
 
 - name: nrpe | enable and start nrpe service
   tags: nagios,nrpe
-  service:
+  systemd:
     name: "{{ nrpe_service }}"
     enabled: yes
     state: started
+  register: nrpe_service_result
+  failed_when: false
+
+- name: nrpe | check alternative nrpe service name
+  tags: nagios,nrpe
+  systemd:
+    name: nrpe
+    enabled: yes
+    state: started
+  when: nrpe_service_result.failed and ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
+  register: nrpe_alt_service_result
+  failed_when: false
+
+- name: nrpe | warn if nrpe service not found
+  tags: nagios,nrpe
+  debug:
+    msg: "NRPE service could not be started. Tried '{{ nrpe_service }}' and 'nrpe'. Please verify the package installed correctly."
+  when: nrpe_service_result.failed and (nrpe_alt_service_result is not defined or nrpe_alt_service_result.failed)
 
 - name: nrpe | copy additional plugins
   tags: nagios,nrpe
