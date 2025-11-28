@@ -49,7 +49,7 @@
     user: mocha
     key: "{{ item }}"
   with_file:
-    - users/mocha/ssh/mocha_id_ed25519.pub
+    - users/mocha/ssh/automation-goher-2025.pub
 
 - name: users | mocha | create config directories
   tags: dotfiles,mocha,tmux,users,vim,zsh

@@ -4,7 +4,7 @@ branch: main
 ansible_cron_minute: "40"
 ssh_port: 22
 ssh_users: "mocha root"
-ansible_user: root
+ansible_user: mocha
 
 # platform-specific
 linode_instance: false
