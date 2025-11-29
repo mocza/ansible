@@ -33,10 +33,15 @@
     mode: '0600'
     regexp: '{{ zfs_replication_pubkey | regex_escape() }}'
 
+- name: users | zfs-replication | read sudoers file content
+  tags: zfs-replication,sudo,users,pve
+  set_fact:
+    zfs_replication_sudoers_content: "{{ lookup('file', 'roles/base/files/users/sudoers_zfs-replication') }}"
+
 - name: users | zfs-replication | add sudoers file
   tags: zfs-replication,sudo,users,pve
   copy:
-    src: users/sudoers_zfs-replication
+    content: "{{ zfs_replication_sudoers_content }}"
     dest: /etc/sudoers.d/zfs-replication
     owner: root
     group: root
