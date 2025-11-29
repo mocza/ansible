@@ -21,16 +21,9 @@
     group: root
     mode: 0755
 
-- name: pve | grant zfs permissions to zfs-replication user (datasets)
-  tags: pve,zfs-replication
-  command: zfs allow -ldu zfs-replication send,receive,list {{ item }}
-  changed_when: false
-  loop:
-    - "{{ zfs_pool_name | default('data') }}/documents"
-    - "{{ zfs_pool_name | default('data') }}/photos"
-  # Note: zfs allow is idempotent - running multiple times is safe
-  # Permissions needed for syncoid: send (for sending snapshots), receive (for receiving snapshots), list (for checking datasets)
-  # zfs allow must be applied to datasets, not pools
+# Note: zfs allow is not used here - we're using sudo instead
+# The zfs-replication user has passwordless sudo access to zfs commands via /etc/sudoers.d/zfs-replication
+# The SSH wrapper script restricts which zfs commands can be executed
 
 - name: pve | create root .ssh directory on prox1 (for syncoid SSH key)
   tags: pve,zfs-replication,syncoid
