@@ -1,0 +1,2 @@
+zfs-replication ALL=(ALL) NOPASSWD: /usr/sbin/zfs, /sbin/zfs, /usr/bin/zfs, /bin/zfs
+

@@ -23,10 +23,10 @@
 
 - name: pve | grant zfs permissions to zfs-replication user (data pool)
   tags: pve,zfs-replication
-  command: zfs allow -ldu zfs-replication send,receive {{ zfs_pool_name | default('data') }}
+  command: zfs allow -ldu zfs-replication send,receive,list {{ zfs_pool_name | default('data') }}
   changed_when: false
   # Note: zfs allow is idempotent - running multiple times is safe
-  # Permissions needed for syncoid: send (for sending snapshots), receive (for receiving snapshots)
+  # Permissions needed for syncoid: send (for sending snapshots), receive (for receiving snapshots), list (for checking datasets)
 
 - name: pve | create root .ssh directory on prox1 (for syncoid SSH key)
   tags: pve,zfs-replication,syncoid
